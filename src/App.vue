@@ -5,8 +5,24 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "App",
+  beforeMount() {
+    if (localStorage.cityName) {
+      this.setCityName(localStorage.cityName);
+    }
+    if (localStorage.cityID) {
+      this.setCity(localStorage.cityID);
+    }
+  },
+  methods: {
+    ...mapMutations({
+      setCity: "setCity",
+      setCityName: "setCityName",
+    }),
+  },
 };
 </script>
 
@@ -41,5 +57,19 @@ body {
 .layout {
   width: 1150px;
   margin: 0 auto;
+}
+.main__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 44px;
+  line-height: 44px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.main__title h1 {
+  font-size: 44px;
+  line-height: 44px;
+  margin: 0;
 }
 </style>

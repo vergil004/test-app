@@ -2,7 +2,11 @@
   <div>
     <header-block />
     <div class="layout">
-      <category-list v-if="categories" :categories="categories" />
+      <h1 class="main__title">Категории товаров</h1>
+      <div v-if="isLoading && !categories.length" class="main-page__loader">
+        <loader-block></loader-block>
+      </div>
+      <category-list v-else :categories="categories" />
     </div>
   </div>
 </template>
@@ -10,12 +14,14 @@
 <script>
 import categoryList from "@/components/category/categoryList";
 import headerBlock from "@/components/header/headerBlock";
+import loaderBlock from "@/components/base/loaderBlock";
 import { mapActions, mapState } from "vuex";
 export default {
   name: "MainPage",
   components: {
     categoryList,
     headerBlock,
+    loaderBlock,
   },
   computed: {
     ...mapState({
@@ -34,4 +40,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.main-page__loader {
+  height: calc(100vh - 200px);
+}
+</style>

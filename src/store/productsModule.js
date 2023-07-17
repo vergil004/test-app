@@ -27,14 +27,15 @@ export const productsModule = {
     },
   },
   actions: {
-    async getProducts({ commit }, slug) {
+    async getProducts({ commit, rootState }, slug) {
+      const city = JSON.parse(JSON.stringify(rootState.city.city));
       commit("setLoading", true);
       try {
         const response = await axios.get(
           `https://nlstar.com/ru/api/catalog3/v1/menutags/${slug}`,
           {
             params: {
-              city_id: 1,
+              city_id: city,
             },
           }
         );
@@ -47,7 +48,7 @@ export const productsModule = {
     },
 
     async getCurrentCategory({ commit, rootState }, slug) {
-      commit("setLoading", true);
+      const city = JSON.parse(JSON.stringify(rootState.city.city));
       if (rootState.categories.categories.length) {
         const categories = JSON.parse(
           JSON.stringify(rootState.categories.categories)
@@ -59,14 +60,13 @@ export const productsModule = {
             : [];
         commit("setSubCategories", subCategories);
         commit("setCurrentCategoryName", currentCategory[0].name);
-        commit("setLoading", false);
       } else {
         try {
           const response = await axios.get(
             "https://nlstar.com/ru/api/catalog3/v1/menutags/",
             {
               params: {
-                city_id: 1,
+                city_id: city,
               },
             }
           );
@@ -81,8 +81,6 @@ export const productsModule = {
           commit("setCurrentCategoryName", currentCategory[0].name);
         } catch (error) {
           console.log(error);
-        } finally {
-          commit("setLoading", false);
         }
       }
     },

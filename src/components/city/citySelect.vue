@@ -34,6 +34,7 @@
 <script>
 import appButton from "@/components/base/appButton";
 import { mapActions, mapState, mapMutations } from "vuex";
+
 export default {
   props: {
     show: {
@@ -62,7 +63,9 @@ export default {
     }),
     changeInput(e) {
       this.city = e.target.value;
-      this.getCityList(e.target.value);
+      if (e.target.value.length > 2) {
+        this.getCityList(e.target.value);
+      }
       this.isSelected = false;
     },
     choiceCity(city, label, id) {
